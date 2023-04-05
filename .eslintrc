@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "extends": [
+    "standard-with-typescript",
+    "plugin:import/typescript",
+    "plugin:import/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  },
+  "rules": {
+    "import/default": "off",
+    "import/no-named-as-default-member": "off",
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "import/namespace": "off",
+    "no-console": "error",
+    "@typescript-eslint/no-redeclare": "off"
+  }
+}
