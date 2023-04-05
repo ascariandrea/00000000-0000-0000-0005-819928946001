@@ -69,7 +69,7 @@ describe("Weather Info", () => {
       averageTemps: [
         {
           city: forecasts[0].name,
-          value: parseInt((forecasts[0].main.temp_max / 3).toFixed(2), 10),
+          value: parseFloat((forecasts[0].main.temp_max / 3).toFixed(2)),
         },
         {
           city: forecasts[1].name,

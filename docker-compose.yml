@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  api:
+    image: node:18-alpine
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    container_name: api
+    env_file:
+      - .env
+      - .env.local
+    environment:
+      HOST: "0.0.0.0"
+    ports:
+      - "${PORT}:${PORT}"
+    tty: true
+    stdin_open: true
+    working_dir: /app/
+    command: yarn start
+    restart: always
+    mem_limit: 1024mb

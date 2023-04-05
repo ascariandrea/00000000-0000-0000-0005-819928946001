@@ -89,3 +89,11 @@ api    |   mamac:server:debug Added GET current weather route +0ms
 api    |   mamac:server:debug Server listening on http://0.0.0.0:3005/healthcheck +6ms
 
 ```
+
+## Scripts
+
+Do you want to run all the commands at once?
+
+```sh
+./scripts/test-all.sh
+```
