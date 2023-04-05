@@ -21,7 +21,7 @@ describe("Current Weather Forecast", () => {
     done();
   });
 
-  const logger = GetLogger("test");
+  const logger = GetLogger("mamac-test:open-weather");
     const get = sinon.fake();
     const getRouteContext = (get: AxiosInstance["get"]): RouteContext => ({
       env,

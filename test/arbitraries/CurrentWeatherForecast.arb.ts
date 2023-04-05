@@ -25,7 +25,7 @@ export const CurrentWeatherForecastArb: fc.Arbitrary<CurrentWeatherForecast> =
       temp_min: fc.integer(),
       temp_max: fc.integer(),
       pressure: fc.integer(),
-      humidity: fc.integer(),
+      humidity: fc.nat(),
     }),
     visibility: fc.integer(),
     wind: fc.record({

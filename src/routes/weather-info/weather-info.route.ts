@@ -27,8 +27,6 @@ export const getWeatherInfoRoute: Route = (ctx) => async (_, res) => {
     ),
   ]);
 
-  ctx.logger.debug("Forecasts %O", forecasts);
-
   const result = forecasts.reduce((acc, f) => {
     return {
       ...acc,
@@ -42,10 +40,16 @@ export const getWeatherInfoRoute: Route = (ctx) => async (_, res) => {
           : acc.highestHumidity,
       averageTemps: acc.averageTemps.concat({
         city: f.name,
-        value: Math.round((f.main.temp_max - f.main.temp_min) * 100) / 100,
+        value:
+          Math.round(
+            ((f.main.temp_max + f.main.temp + f.main.temp_min) / 3) * 100
+          ) / 100,
       }),
     };
   }, emptyWeatherInfo);
+
+  // print the result before sending the response back
+  ctx.logger.debug("Weather info for %O", result);
 
   return res.send({ data: result });
 };

@@ -12,14 +12,29 @@ import {
 import { GetServer } from "./server";
 import { getENVOrThrow } from "./utils/env.util";
 
+/**
+ * Load env file from DOTENV_CONFIG env variable
+ */
 dotenv.config({
   path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG ?? ".env"),
 });
 
+/**
+ * Patch env with local env file
+ */
 dotenv.config({
   path: path.resolve(process.cwd(), ".env.local"),
 });
 
+/**
+ * Bootstrap the server, running the following tasks
+ * - load and decode env
+ * - set logger enabled namespaces
+ * - load server context with needed providers (logger module and Open Weather API Client)
+ * - create the server routes
+ * - bind server port
+ * - enjoy :)
+ */
 const run = async (): Promise<void> => {
   const serverLogger = GetLogger("mamac:server");
   const env = getENVOrThrow(process.env);
@@ -27,7 +42,7 @@ const run = async (): Promise<void> => {
   // enable debug namespaces defined in process.env
   D.enable(env.DEBUG);
 
-  const app = GetServer({
+  const ctx = {
     env,
     logger: serverLogger,
     openWeather: GetOpenWeatherProvider({
@@ -37,7 +52,9 @@ const run = async (): Promise<void> => {
         baseURL: OPEN_WEATHER_API_URL,
       }),
     }),
-  });
+  };
+
+  const app = GetServer(ctx);
 
   const server = app.listen(env.PORT, env.HOST, () => {
     serverLogger.debug("Server listening on http://%s:%d", env.HOST, env.PORT);

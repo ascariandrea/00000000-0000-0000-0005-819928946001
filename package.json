@@ -2,7 +2,7 @@
   "name": "mamacrowd-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/run.js",
   "scripts": {
     "dev": "ts-node-dev src/run.ts",
     "start": "node lib/run.js",

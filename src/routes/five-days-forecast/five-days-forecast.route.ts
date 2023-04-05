@@ -19,23 +19,23 @@ const emptyFiveDaysForecastResult: FiveDaysForecastResult = {
   temps_min: [],
 };
 
-export const getFiveDaysForecastRoute: Route =
-  (ctx) => async (req, res) => {
-    const { city } = decodeOrThrow(GetCurrentWeatherForecastParams)(req.params);
-    const [lat, lon] = CITIES[city];
-    const forecast = await ctx.openWeather.getFiveDaysForecastForCity(lat, lon);
+export const getFiveDaysForecastRoute: Route = (ctx) => async (req, res) => {
+  const { city } = decodeOrThrow(GetCurrentWeatherForecastParams)(req.params);
+  const [lat, lon] = CITIES[city];
 
-    ctx.logger.debug("Forecast for city %s: %O", city, forecast);
+  ctx.logger.debug("Forecast for city %s: (%s,%s)", city, lat, lon);
 
-    const temps = forecast.list.reduce((acc, l) => {
-      return {
-        temps: acc.temps.concat(l.main.temp),
-        temps_min: acc.temps_min.concat(l.main.temp_min),
-        temps_max: acc.temps_min.concat(l.main.temp_max),
-        pressure: acc.pressure.concat(l.main.pressure),
-        humidity: acc.humidity.concat(l.main.humidity),
-      };
-    }, emptyFiveDaysForecastResult);
+  const forecast = await ctx.openWeather.getFiveDaysForecastForCity(lat, lon);
 
-    return res.send({ data: temps });
-  };
+  const temps = forecast.list.reduce((acc, l) => {
+    return {
+      temps: acc.temps.concat(l.main.temp),
+      temps_min: acc.temps_min.concat(l.main.temp_min),
+      temps_max: acc.temps_min.concat(l.main.temp_max),
+      pressure: acc.pressure.concat(l.main.pressure),
+      humidity: acc.humidity.concat(l.main.humidity),
+    };
+  }, emptyFiveDaysForecastResult);
+
+  return res.send({ data: temps });
+};
